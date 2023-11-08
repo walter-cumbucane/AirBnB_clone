@@ -23,7 +23,7 @@ sudo apt-get install python3
 To have access to the console use the following command:
 
 ```
-git clone https://github.com/benkivuva/AirBnB_clone.git; cd AirBnB_clone
+git clone https://github.com/walter-cumbucane/AirBnB_clone.git; cd AirBnB_clone
 ```
 
 # Run
@@ -147,4 +147,4 @@ Creating a new basemodel, counting basemodel, delete and count again
 
 ![Destroy](https://github.com/daorejuela1/AirBnB_clone/blob/master/images/destroy.gif)
 
-Coded with ❤️ and 🔨 by: [Benson Kivuva](https://github.com/benkivuva) & [Sophia Terry](https://github.com/terryyufei)
+Coded by: [Akuak Akuak](https://github.com/Akuak-Mayen) & [Walter Cumbucane](https://github.com/walter-cumbucane)
