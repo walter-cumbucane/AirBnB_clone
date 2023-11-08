@@ -93,4 +93,4 @@ The id of the created model will be visible in the standard output, if you do:
 (hbnb) show User [id]
 Sources
 Coded with ❤️ and 🔨 by: [Akuak Akuak](https://github.com/Akuak-Mayen) & [Walter Cumbucane](https://github.com/
-walter-cumbucane
+walter-cumbucane)
