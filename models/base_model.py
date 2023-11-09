@@ -20,7 +20,7 @@ class BaseModel(object):
             for key in kwargs.keys():
                 if key == "__class__":
                     continue
-                self.key = kwargs[key]
+                setattr(self, key, kwargs[key])
         else:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.datetime.now().isoformat()
