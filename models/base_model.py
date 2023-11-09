@@ -12,13 +12,19 @@ class BaseModel(object):
         Contains the base class of the project
     """
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """
             Class's Constructor
         """
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.datetime.now().isoformat()
-        self.updated_at = datetime.datetime.now().isoformat()
+        if kwargs:
+            for key in kwargs.keys():
+                if key == "__class__":
+                    continue
+                self.key = kwargs[key]
+        else:
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.datetime.now().isoformat()
+            self.updated_at = self.created_at
 
     def __str__(self):
         """
