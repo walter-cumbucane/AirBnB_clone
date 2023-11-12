@@ -51,7 +51,7 @@ class FileStorage(object):
             to_store[key] = type(self).__objects[key].to_dict()
 
         with open(type(self).__file_path, "w") as file:
-            json_string = json.dumps(to_store[key])
+            json_string = json.dumps(to_store)
             file.write(json_string)
 
     def reload(self):
