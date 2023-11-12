@@ -1,12 +1,16 @@
 #!/usr/bin/python
 """
-The Place module defines the Place class, which holds attributes for a place.
+    The Place module defines the Place class,
+    which holds attributes for a place.
 """
 
 from models.base_model import BaseModel
 
 
 class Place(BaseModel):
+    """
+        Defines Place class
+    """
     city_id = ""
     user_id = ""
     name = ""
@@ -22,4 +26,3 @@ class Place(BaseModel):
     def __init__(self, *args, **kwargs):
         """Place Initialization"""
         super().__init__(*args, **kwargs)
-
