@@ -4,11 +4,23 @@
     and deserializes JSON files to instances
 """
 from models.base_model import BaseModel
+from models.amenity import Amenity
+from models.city import City
+from models.place import Place
+from models.review import Review
+from models.state import State
+from models.user import User
 import json
 
 
 clss = dict()
 clss["BaseModel"] = BaseModel
+clss["Amenity"] = Amenity
+clss["City"] = City
+clss["Place"] = Place
+clss["Review"] = Review
+clss["State"] = State
+clss["User"] = User
 
 
 class FileStorage(object):
