@@ -16,7 +16,7 @@ class FileStorage(object):
         Class Definition
     """
 
-    __file_path = "test.json"
+    __file_path = "file.json"
     __objects = dict()
 
     def __init__(self):
