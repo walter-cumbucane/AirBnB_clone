@@ -7,6 +7,8 @@ from models import storage
 import uuid
 import datetime
 
+time = "%Y-%m-%dT%H:%M:%S.%f"
+
 
 class BaseModel(object):
     """
@@ -22,9 +24,13 @@ class BaseModel(object):
                 if key == "__class__":
                     continue
                 setattr(self, key, kwargs[key])
+            if hasattr(self, "created_at") and type(self.created_at) is str:
+                self.created_at = datetime.strptime(kwargs["created_at"], time)
+            if hasattr(self, "updated_at") and type(self.updated_at) is str:
+                self.updated_at = datetime.strptime(kwargs["updated_at"], time)
         else:
             self.id = str(uuid.uuid4())
-            self.created_at = datetime.datetime.now().isoformat()
+            self.created_at = datetime.datetime.now()
             self.updated_at = self.created_at
             storage.new(self)
             storage.save()
@@ -41,7 +47,7 @@ class BaseModel(object):
         """
             Updates the updated_at with the current time
         """
-        self.updated_at = datetime.datetime.now().isoformat()
+        self.updated_at = datetime.datetime.now()
         storage.save()
 
     def to_dict(self):
@@ -51,7 +57,7 @@ class BaseModel(object):
         """
         dictionary = {}
         dictionary["id"] = self.id
-        dictionary["created_at"] = self.created_at
-        dictionary["updated_at"] = self.updated_at
+        dictionary["created_at"] = self.created_at.strftime(time)
+        dictionary["updated_at"] = self.updated_at.strftime(time)
         dictionary["__class__"] = type(self).__name__
         return dictionary
