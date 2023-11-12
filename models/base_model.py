@@ -5,7 +5,7 @@
 """
 import models
 import uuid
-import datetime
+from datetime import datetime as dt
 
 time = "%Y-%m-%dT%H:%M:%S.%f"
 
@@ -25,12 +25,12 @@ class BaseModel(object):
                     continue
                 setattr(self, key, kwargs[key])
             if hasattr(self, "created_at") and type(self.created_at) is str:
-                self.created_at = datetime.strptime(kwargs["created_at"], time)
+                self.created_at = dt.strptime(kwargs["created_at"], time)
             if hasattr(self, "updated_at") and type(self.updated_at) is str:
-                self.updated_at = datetime.strptime(kwargs["updated_at"], time)
+                self.updated_at = dt.strptime(kwargs["updated_at"], time)
         else:
             self.id = str(uuid.uuid4())
-            self.created_at = datetime.datetime.now()
+            self.created_at = dt.now()
             self.updated_at = self.created_at
             models.storage.new(self)
             models.storage.save()
@@ -47,7 +47,7 @@ class BaseModel(object):
         """
             Updates the updated_at with the current time
         """
-        self.updated_at = datetime.datetime.now()
+        self.updated_at = dt.now()
         models.storage.save()
 
     def to_dict(self):
