@@ -1,10 +1,14 @@
 #!/usr/bin/python3
 """
-    Contains a class that serializes instances to a JSON file 
+    Contains a class that serializes instances to a JSON file
     and deserializes JSON files to instances
 """
-#from models.base_model import BaseModel
+from models.base_model import BaseModel
 import json
+
+
+clss = dict()
+clss["BaseModel"] = BaseModel
 
 
 class FileStorage(object):
@@ -31,19 +35,22 @@ class FileStorage(object):
         """
             Sets in the received object in the dictionary of objects
         """
-        key = type(obj).__name__
-        key += "."
-        key += obj.id
-        type(self).__objects[key] = None
+        if obj is not None:
+            key = type(obj).__name__
+            key += "."
+            key += obj.id
+            type(self).__objects[key] = obj
 
     def save(self):
         """
             Serializes __objects o the JSON file specified in
             __file_path
         """
-        print(type(self).__file_path)
+        for key in type(self).__objects:
+            to_store[key] = type(self).__objects[key].to_dict()
+
         with open(type(self).__file_path, "w") as file:
-            json_string = json.dumps(type(self).__objects)
+            json_string = json.dumps(to_store[key])
             file.write(json_string)
 
     def reload(self):
@@ -54,6 +61,8 @@ class FileStorage(object):
         try:
             with open(type(self).__file_path, "r") as file:
                 file_data = file.read()
-                type(self).__objects = json.loads(file_data)
+                dt = json.loads(file_data)
+            for k in dt:
+                type(self).__objects[k] = clss[dt[k]["__class__"]](**dt[k])
         except Exception as e:
             pass

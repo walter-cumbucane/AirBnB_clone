@@ -27,6 +27,7 @@ class BaseModel(object):
             self.created_at = datetime.datetime.now().isoformat()
             self.updated_at = self.created_at
             storage.new(self)
+            storage.save()
 
     def __str__(self):
         """
@@ -40,8 +41,8 @@ class BaseModel(object):
         """
             Updates the updated_at with the current time
         """
-        storage.save()
         self.updated_at = datetime.datetime.now().isoformat()
+        storage.save()
 
     def to_dict(self):
         """
