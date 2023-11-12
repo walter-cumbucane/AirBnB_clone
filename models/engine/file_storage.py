@@ -46,6 +46,7 @@ class FileStorage(object):
             Serializes __objects o the JSON file specified in
             __file_path
         """
+        to_store = dict()
         for key in type(self).__objects:
             to_store[key] = type(self).__objects[key].to_dict()
 
