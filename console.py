@@ -3,6 +3,7 @@
     This module contains code that implements a console
 """
 import cmd
+import json
 import shlex
 from models.base_model import BaseModel
 from models.amenity import Amenity
@@ -107,9 +108,94 @@ class HBNBCommand(cmd.Cmd):
         """
         print("Used to find an instance of a class based on its id")
 
-    def destroy(self, arguments):
-        
-            
-            
+    def do_destroy(self, arguments):
+        """
+            Implements the destroy command
+        """
+        if not arguments:
+            print("** class name missing **")
+            return
+        tokens = shlex.split(arguments)
+        if tokens[0] not in HBNBCommand.clss.keys():
+            print("** class doesn't exist **")
+        elif len(tokens) == 1:
+            print("** instance id missing **")
+        else:
+            storage.reload()
+            objects = storage.all()
+            key_to_find = tokens[0] + "." + tokens[1]
+            for key in objects:
+                if key_to_find == key:
+                    del objects[key_to_find]
+                    storage.save()
+                    return
+            print("** no instance found **")
+
+    def help_destroy(self):
+        """ Function Description """
+        print("Used to delete an instance of a class based on its id")
+
+    def do_all(self, arguments):
+        """
+            all command implementation
+        """
+        list_to_print = list()
+        storage.reload()
+        objects = storage.all()
+        if arguments:
+            tokens = shlex.split(arguments)
+            if tokens[0] not in HBNBCommand.clss.keys():
+                print("** class doesn't exist **")
+                return
+            for key in objects.keys():
+                if tokens[0] in key:
+                    list_to_print.append(str(objects[key]))
+            print(json.dumps(list_to_print))
+        else:
+            for key in objects.keys():
+                list_to_print.append(str(objects[key]))
+            print(json.dumps(list_to_print))
+
+    def help_all(self):
+        """ Function Description """
+        print("Uses to list all the instances in the file storage")
+
+    def do_update(self, arguments):
+        """
+            Implements the update command
+        """
+        if not arguments:
+            print("** class name missing **")
+            return
+        tokens = shlex.split(arguments)
+        if tokens[0] not in HBNBCommand.clss.keys():
+            print("** class doesn't exist **")
+        elif len(tokens) == 1:
+            print("** instance id missing **")
+        elif len(tokens) == 2:
+            print("** attribute name missing **")
+        elif len(tokens) == 3:
+            print("** value missing **")
+        else:
+            storage.reload()
+            objects = storage.all()
+            key_to_find = tokens[0] + "." + tokens[1]
+            for key in objects:
+                if key_to_find == key:
+                    instance = objects[key]
+                    if hasattr(instance, tokens[2]):
+                        data_type = type(getattr(instance, tokens[2]))
+                        setattr(instance, tokens[2], data_type(tokens[3]))
+                    else:
+                        setattr(instance, tokens[2], tokens[3])
+                    storage.save
+                    return
+            print("** no instance found **")
+
+    def help_update(self):
+        """ Function Declaration """
+        print("Updates instance's attributes")
+
+
 if __name__ == "__main__":
     HBNBCommand().cmdloop()

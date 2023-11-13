@@ -55,8 +55,7 @@ class BaseModel(object):
             Returns a dictionary containing all keys/values of the
             __dict__ of the instance
         """
-        dictionary = {}
-        dictionary["id"] = self.id
+        dictionary = self.__dict__.copy()
         dictionary["created_at"] = self.created_at.strftime(time)
         dictionary["updated_at"] = self.updated_at.strftime(time)
         dictionary["__class__"] = type(self).__name__
