@@ -167,30 +167,34 @@ class HBNBCommand(cmd.Cmd):
         if not arguments:
             print("** class name missing **")
             return
-        tokens = shlex.split(arguments)
-        if tokens[0] not in HBNBCommand.clss.keys():
+        data = shlex.split(arguments)
+        storage.reload()
+        objects = storage.all()
+        if data[0] not in HBNBCommand.clss.keys():
             print("** class doesn't exist **")
-        elif len(tokens) == 1:
+            return
+        if len(data) == 1:
             print("** instance id missing **")
-        elif len(tokens) == 2:
+            return
+        if len(data) == 2:
             print("** attribute name missing **")
-        elif len(tokens) == 3:
+            return
+        if len(data) == 3:
             print("** value missing **")
-        else:
-            storage.reload()
-            objects = storage.all()
-            key_to_find = tokens[0] + "." + tokens[1]
-            for key in objects:
-                if key_to_find == key:
-                    instance = objects[key]
-                    if hasattr(instance, tokens[2]):
-                        data_type = type(getattr(instance, tokens[2]))
-                        setattr(instance, tokens[2], data_type(tokens[3]))
-                    else:
-                        setattr(instance, tokens[2], tokens[3])
-                    storage.save
-                    return
+            return
+        try:
+            key = data[0] + "." + data[1]
+            objects[key]
+        except Exception as e:
             print("** no instance found **")
+            return
+        instance = objects[key]
+        if hasattr(instance, data[2]):
+            data_type = type(getattr(instance, data[2]))
+            setattr(instance, data[2], data_type(data[3]))
+        else:
+            setattr(instance, data[2], data[3])
+        storage.save()
 
     def help_update(self):
         """ Function Declaration """
