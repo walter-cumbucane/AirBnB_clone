@@ -28,7 +28,10 @@ class FileStorage(object):
         Class Definition
     """
 
+    # String - path to the JSON file
     __file_path = "file.json"
+
+    # dictionary - empty but will store all objects
     __objects = dict()
 
     def __init__(self):
