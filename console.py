@@ -200,6 +200,35 @@ class HBNBCommand(cmd.Cmd):
         """ Function Declaration """
         print("Updates instance's attributes")
 
+    def do_count(self, argument):
+        """
+            Counts the number of instance of a class
+        """
+        num = 0
+        objects = storage.all()
+        for key in objects.keys():
+            if argument in key:
+                num += 1
+        print(num)
+
+    def default(self, argument):
+        """
+            For when a command that doesn't match the previous
+            is inserted
+        """
+        methods = {
+            "all": self.do_all,
+            "count": self.do_count
+        }
+        argument = argument.strip()
+        data = argument.split(".")
+        if len(data) != 2:
+            cmd.Cmd.default(self, argument)
+            return
+        class_name = data[0]
+        method = data[1].split("(")[0]
+        methods[method](class_name.strip())
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
