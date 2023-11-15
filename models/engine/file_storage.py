@@ -44,7 +44,7 @@ class FileStorage(object):
         """
             Returns the dictionary __objects
         """
-        return type(self).__objects
+        return self.__objects
 
     def new(self, obj):
         """
@@ -54,7 +54,7 @@ class FileStorage(object):
             key = type(obj).__name__
             key += "."
             key += obj.id
-            type(self).__objects[key] = obj
+            self.__objects[key] = obj
 
     def save(self):
         """
@@ -62,10 +62,10 @@ class FileStorage(object):
             __file_path
         """
         to_store = dict()
-        for key in type(self).__objects:
-            to_store[key] = type(self).__objects[key].to_dict()
+        for key in self.__objects:
+            to_store[key] = self.__objects[key].to_dict()
 
-        with open(type(self).__file_path, "w") as file:
+        with open(self.__file_path, "w") as file:
             json_string = json.dumps(to_store)
             file.write(json_string)
 
@@ -75,10 +75,10 @@ class FileStorage(object):
             JSON file exists. Otherwise, do nothing
         """
         try:
-            with open(type(self).__file_path, "r") as file:
+            with open(self.__file_path, "r") as file:
                 file_data = file.read()
                 dt = json.loads(file_data)
             for k in dt:
-                type(self).__objects[k] = clss[dt[k]["__class__"]](**dt[k])
+                self.__objects[k] = clss[dt[k]["__class__"]](**dt[k])
         except Exception as e:
             pass
