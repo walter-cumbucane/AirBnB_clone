@@ -218,7 +218,9 @@ class HBNBCommand(cmd.Cmd):
         """
         methods = {
             "all": self.do_all,
-            "count": self.do_count
+            "count": self.do_count,
+            "show": self.do_show,
+            "destroy": self.do_destroy
         }
         argument = argument.strip()
         data = argument.split(".")
@@ -227,7 +229,13 @@ class HBNBCommand(cmd.Cmd):
             return
         class_name = data[0]
         method = data[1].split("(")[0]
-        methods[method](class_name.strip())
+        if method in ["all", "count"]:
+            methods[method](class_name.strip())
+            return
+        ids_number = data[1].split("(")
+        id_number = ids_number[1].split(")")[0]
+        line = class_name + " " + id_number
+        methods[method](line.strip())
 
 
 if __name__ == "__main__":
